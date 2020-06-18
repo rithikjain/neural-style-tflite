@@ -45,4 +45,10 @@ dependencies {
     // TFLite & Support library
     implementation 'org.tensorflow:tensorflow-lite:2.2.0'
     implementation 'org.tensorflow:tensorflow-lite-support:0.0.0-nightly'
+
+    // Recycler View
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
+
+    // Glide for loading images
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
 }
