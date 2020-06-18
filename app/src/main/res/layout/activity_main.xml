@@ -26,6 +26,13 @@
         android:layout_below="@id/title"
         android:layout_above="@id/stylesTextView"/>
 
+    <Button
+        android:id="@+id/selectImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Select Image"/>
+
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="60dp"

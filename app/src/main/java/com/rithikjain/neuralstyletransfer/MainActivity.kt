@@ -1,15 +1,15 @@
 package com.rithikjain.neuralstyletransfer
 
-import androidx.appcompat.app.AppCompatActivity
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
-import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.core.view.isVisible
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
+import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
@@ -21,6 +21,8 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
     private lateinit var styleTransferModel: StyleTransferModel
     private var isModelRunning = false
+    private var contentImageLoc: String? = null
+    private val pickImage = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,31 +48,57 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
         styleTransferModel = StyleTransferModel(this)
 
+        runWithPermissions(android.Manifest.permission.READ_EXTERNAL_STORAGE) {
+            selectImageButton.setOnClickListener {
+                val gallery = Intent(Intent.ACTION_PICK)
+                gallery.type = "image/*"
+
+                startActivityForResult(gallery, pickImage)
+            }
+        }
+
         stylesRecyclerView.addOnItemClickListener(object : OnItemClickListener {
             override fun onItemClicked(position: Int, view: View) {
                 if (!isModelRunning) {
-                    isModelRunning = true
-                    launch {
-                        withContext(Dispatchers.IO) {
-                            withContext(Dispatchers.Main) {
-                                outputImage.visibility = View.INVISIBLE
-                                progressBar.visibility = View.VISIBLE
-                            }
-                            styleTransferModel.setUpFilter(styleList[position])
-                            val img = styleTransferModel.styleImage("content2.jpg")
-                            withContext(Dispatchers.Main) {
-                                progressBar.visibility = View.INVISIBLE
-                                outputImage.visibility = View.VISIBLE
-                                outputImage.setImageBitmap(img)
-                                isModelRunning = false
+                    if (!contentImageLoc.isNullOrEmpty()) {
+                        isModelRunning = true
+                        launch {
+                            withContext(Dispatchers.IO) {
+                                withContext(Dispatchers.Main) {
+                                    outputImage.visibility = View.INVISIBLE
+                                    progressBar.visibility = View.VISIBLE
+                                }
+                                styleTransferModel.setUpFilter(styleList[position])
+                                val img = styleTransferModel.styleImage(contentImageLoc!!)
+                                withContext(Dispatchers.Main) {
+                                    progressBar.visibility = View.INVISIBLE
+                                    outputImage.visibility = View.VISIBLE
+                                    outputImage.setImageBitmap(img)
+                                    isModelRunning = false
+                                }
                             }
                         }
+                    } else {
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Select an image first",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 } else {
                     Log.d("esh", "Model Running")
                 }
             }
         })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == pickImage && resultCode == Activity.RESULT_OK && data != null) {
+            contentImageLoc = data.data!!.path
+            Log.d("esh", "Images selected")
+        }
     }
 
     override fun onDestroy() {
