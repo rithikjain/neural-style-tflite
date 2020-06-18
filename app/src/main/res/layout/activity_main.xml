@@ -19,8 +19,8 @@
 
     <ImageView
         android:id="@+id/outputImage"
-        android:layout_width="400dp"
-        android:layout_height="400dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/title"
