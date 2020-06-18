@@ -13,11 +13,13 @@ class MainActivity : AppCompatActivity() {
 
         styleTransferModel = StyleTransferModel(this)
 
-        styleTransferModel.setUpFilter("style2.jpg")
+        styleTransferModel.setUpFilter("style1.jpg")
 
         goButton.setOnClickListener {
+            goButton.isEnabled = false
             val image = styleTransferModel.styleImage("content2.jpg")
             tempImage.setImageBitmap(image)
+            goButton.isEnabled = true
         }
     }
 
