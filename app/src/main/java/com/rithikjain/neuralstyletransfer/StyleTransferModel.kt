@@ -33,7 +33,7 @@ class StyleTransferModel(private val context: Context) {
             val startTime = System.currentTimeMillis()
 
             // Loading style image
-            val styleImage = ImageUtils.loadBitmapFromResources(context, styleImageName)
+            val styleImage = ImageUtils.loadBitmapFromResources(context, "styles/$styleImageName")
             val input =
                 ImageUtils.bitmapToByteBuffer(styleImage, STYLE_IMAGE_SIZE, STYLE_IMAGE_SIZE)
 
