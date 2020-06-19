@@ -9,12 +9,14 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.style_item.view.*
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
@@ -36,12 +38,15 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
         val styleList = mutableListOf<String>()
         val styleNameList = mutableListOf<String>()
-        for (i in 0..25) {
+        styleList.add("none.png")
+        styleNameList.add("None")
+        for (i in 1..26) {
             styleList.add("style$i.jpg")
             styleNameList.add("Style $i")
         }
 
-        val stylesRecyclerViewAdapter = StylesRecyclerViewAdapter()
+        val borderDrawable = ContextCompat.getDrawable(this, R.drawable.image_border)
+        val stylesRecyclerViewAdapter = StylesRecyclerViewAdapter(borderDrawable!!)
         stylesRecyclerViewAdapter.setStylesList(styleList, styleNameList)
         stylesRecyclerView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -65,19 +70,27 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 if (!isModelRunning) {
                     if (contentImage != null) {
                         isModelRunning = true
-                        launch {
-                            withContext(Dispatchers.IO) {
-                                withContext(Dispatchers.Main) {
-                                    outputImage.visibility = View.INVISIBLE
-                                    progressBar.visibility = View.VISIBLE
-                                }
-                                styleTransferModel.setUpFilter(styleList[position])
-                                val img = styleTransferModel.styleImage(contentImage!!)
-                                withContext(Dispatchers.Main) {
-                                    progressBar.visibility = View.INVISIBLE
-                                    outputImage.visibility = View.VISIBLE
-                                    outputImage.setImageBitmap(img)
-                                    isModelRunning = false
+                        stylesRecyclerViewAdapter.notifyItemChanged(stylesRecyclerViewAdapter.selectedPos)
+                        stylesRecyclerViewAdapter.selectedPos = position
+                        stylesRecyclerViewAdapter.notifyItemChanged(stylesRecyclerViewAdapter.selectedPos)
+                        if (position == 0) {
+                            outputImage.setImageBitmap(contentImage)
+                            isModelRunning = false
+                        } else {
+                            launch {
+                                withContext(Dispatchers.IO) {
+                                    withContext(Dispatchers.Main) {
+                                        outputImage.visibility = View.INVISIBLE
+                                        progressBar.visibility = View.VISIBLE
+                                    }
+                                    styleTransferModel.setUpFilter(styleList[position])
+                                    val img = styleTransferModel.styleImage(contentImage!!)
+                                    withContext(Dispatchers.Main) {
+                                        progressBar.visibility = View.INVISIBLE
+                                        outputImage.visibility = View.VISIBLE
+                                        outputImage.setImageBitmap(img)
+                                        isModelRunning = false
+                                    }
                                 }
                             }
                         }
