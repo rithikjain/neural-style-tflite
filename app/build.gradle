@@ -63,4 +63,7 @@ dependencies {
 
     // Quick Permissions
     implementation 'com.github.quickpermissions:quickpermissions-kotlin:0.4.1'
+
+    // Image Picker
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
 }

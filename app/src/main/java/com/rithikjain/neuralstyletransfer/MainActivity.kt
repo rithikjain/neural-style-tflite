@@ -9,14 +9,13 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.net.toFile
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
+import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
-import java.io.File
-import java.lang.Exception
 import kotlin.coroutines.CoroutineContext
 
 class MainActivity : AppCompatActivity(), CoroutineScope {
@@ -27,7 +26,6 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
     private lateinit var styleTransferModel: StyleTransferModel
     private var isModelRunning = false
     private var contentImage: Bitmap? = null
-    private val pickImage = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,10 +53,10 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
         runWithPermissions(android.Manifest.permission.READ_EXTERNAL_STORAGE) {
             selectImageButton.setOnClickListener {
-                val gallery = Intent(Intent.ACTION_PICK)
-                gallery.type = "image/*"
-
-                startActivityForResult(gallery, pickImage)
+                CropImage.activity()
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .setAspectRatio(1, 1)
+                    .start(this)
             }
         }
 
@@ -100,15 +98,16 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == pickImage && resultCode == Activity.RESULT_OK && data != null) {
-            try {
-                val uri = data.data!!
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            val result = CropImage.getActivityResult(data)
+            if (resultCode == Activity.RESULT_OK) {
+                val uri = result.uri
                 val imageStream = contentResolver.openInputStream(uri)
                 contentImage = BitmapFactory.decodeStream(imageStream)
                 outputImage.setImageBitmap(contentImage)
                 Log.d("esh", "Images selected")
-            } catch (e: Exception) {
-                Log.d("esh", "Something went wrong in selecting photo")
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Log.d("esh", "Error ${result.error}")
             }
         }
     }

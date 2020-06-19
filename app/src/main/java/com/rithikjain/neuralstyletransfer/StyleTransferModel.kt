@@ -5,8 +5,6 @@ import android.graphics.Bitmap
 import android.util.Log
 import org.tensorflow.lite.Interpreter
 import org.tensorflow.lite.support.common.FileUtil
-import java.io.File
-import java.net.URI
 
 class StyleTransferModel(private val context: Context) {
     private val interpreterPredict: Interpreter
@@ -62,7 +60,6 @@ class StyleTransferModel(private val context: Context) {
             val startTime = System.currentTimeMillis()
 
             // Loading content image
-//            val contentImage = ImageUtils.decodeBitmap(File(contentImageLoc))
             val contentArray =
                 ImageUtils.bitmapToByteBuffer(contentImage, CONTENT_IMAGE_SIZE, CONTENT_IMAGE_SIZE)
 
