@@ -1,67 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="16dp"
         android:text="Neural Style Transfer"
-        android:textSize="32sp"
         android:textColor="#000000"
-        android:textStyle="bold"
-        android:layout_margin="16dp"/>
+        android:textSize="32sp"
+        android:textStyle="bold" />
 
     <ImageView
         android:id="@+id/outputImage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_centerHorizontal="true"
+        android:layout_above="@id/selectImageButton"
         android:layout_below="@id/title"
-        android:layout_above="@id/selectImageButton"/>
+        android:layout_centerHorizontal="true"
+        android:layout_margin="16dp" />
 
     <Button
         android:id="@+id/selectImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/stylesTextView"
-        android:layout_margin="16dp"
-        android:textColor="#FFFFFF"
         android:layout_centerHorizontal="true"
-        android:paddingHorizontal="8dp"
+        android:layout_margin="16dp"
         android:background="@drawable/round_button"
-        android:text="Select Image"/>
+        android:paddingHorizontal="8dp"
+        android:text="Select Image"
+        android:textColor="#FFFFFF" />
 
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_centerInParent="true"/>
+        android:layout_below="@id/title"
+        android:layout_above="@id/selectImageButton"
+        android:layout_centerHorizontal="true"/>
 
     <TextView
         android:id="@+id/stylesTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/stylesRecyclerView"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="8dp"
         android:text="Styles"
         android:textColor="#000000"
-        android:textStyle="bold"
         android:textSize="24sp"
-        android:layout_above="@+id/stylesRecyclerView"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="16dp" />
+        android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/stylesRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
         android:layout_alignParentBottom="true"
+        android:layout_marginHorizontal="8dp"
         android:layout_marginBottom="8dp"
         android:orientation="horizontal" />
 

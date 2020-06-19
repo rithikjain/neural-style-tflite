@@ -16,7 +16,6 @@ import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.style_item.view.*
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
