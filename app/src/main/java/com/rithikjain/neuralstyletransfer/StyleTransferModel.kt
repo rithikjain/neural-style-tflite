@@ -57,12 +57,12 @@ class StyleTransferModel(private val context: Context) {
         }
     }
 
-    fun styleImage(contentImagePath: String): Bitmap? {
+    fun styleImage(contentImage: Bitmap): Bitmap? {
         try {
             val startTime = System.currentTimeMillis()
 
             // Loading content image
-            val contentImage = ImageUtils.decodeBitmap(File(contentImagePath))
+//            val contentImage = ImageUtils.decodeBitmap(File(contentImageLoc))
             val contentArray =
                 ImageUtils.bitmapToByteBuffer(contentImage, CONTENT_IMAGE_SIZE, CONTENT_IMAGE_SIZE)
 
