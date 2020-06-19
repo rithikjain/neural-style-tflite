@@ -30,20 +30,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/stylesTextView"
-        android:layout_centerHorizontal="true"
         android:layout_margin="16dp"
         android:background="@drawable/round_button"
         android:paddingHorizontal="8dp"
         android:text="Select Image"
         android:textColor="#FFFFFF" />
 
+    <Button
+        android:id="@+id/saveImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/stylesTextView"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp"
+        android:background="@drawable/round_button"
+        android:paddingHorizontal="8dp"
+        android:text="Save Image"
+        android:textColor="#FFFFFF" />
+
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_below="@id/title"
         android:layout_above="@id/selectImageButton"
-        android:layout_centerHorizontal="true"/>
+        android:layout_below="@id/title"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/stylesTextView"
