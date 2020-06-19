@@ -24,13 +24,18 @@
         android:layout_margin="16dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/title"
-        android:layout_above="@id/stylesTextView"/>
+        android:layout_above="@id/selectImageButton"/>
 
     <Button
         android:id="@+id/selectImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_above="@id/stylesTextView"
+        android:layout_margin="16dp"
+        android:textColor="#FFFFFF"
+        android:layout_centerHorizontal="true"
+        android:paddingHorizontal="8dp"
+        android:background="@drawable/round_button"
         android:text="Select Image"/>
 
     <ProgressBar
