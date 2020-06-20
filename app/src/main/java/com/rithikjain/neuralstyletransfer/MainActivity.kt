@@ -159,7 +159,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             imgBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
             stream.flush()
             stream.close()
-            Toast.makeText(context, "Image saved", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Image saved in Downloads", Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
             Log.d("esh", "File error $e")
             Toast.makeText(context, "Could not be saved", Toast.LENGTH_SHORT).show()
